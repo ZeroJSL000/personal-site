@@ -1,0 +1,338 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/Container.astro";
+import { site } from "../data/site";
+---
+
+<BaseLayout title="Profile" description={`Profile, education, and working principles for ${site.name}.`}>
+    <header class="border-b border-line py-16 md:py-24">
+      <Container>
+        <div class="grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(20rem,0.85fr)] lg:items-end">
+          <div>
+            <p class="eyebrow">Profile</p>
+            <h1 class="mt-5 max-w-4xl font-display text-5xl leading-[0.96] tracking-[-0.055em] md:text-7xl">
+              Learning to ask better questions about evidence.
+            </h1>
+          </div>
+          <p class="border-l border-signal/55 pl-6 text-lg leading-8 text-muted md:pl-8">
+            I am a data science undergraduate at SUSTech working across quantitative research,
+            financial analysis, and applied AI systems.
+          </p>
+        </div>
+      </Container>
+    </header>
+
+    <section class="py-16 md:py-24">
+      <Container>
+        <div class="profile-story">
+          <p class="eyebrow">The thread</p>
+          <div>
+            <p class="story-lead">
+              I began by watching how a risk team used market data each day. Since then, I have been
+              drawn to a more specific problem: how a model, dataset, or research claim earns trust
+              when the environment changes.
+            </p>
+            <p>
+              That question has taken me from minute-level factor systems and market-regime research
+              to fund-data quality, graph features for credit risk, traceable training data, and an
+              AI analysis product. The domains differ, but the work repeats the same discipline:
+              preserve the source, separate the test from the training path, and state what the
+              evidence cannot yet support.
+            </p>
+            <p>
+              For graduate study, I want to deepen the mathematical and computational tools behind
+              quantitative finance and data science, while staying close to the systems and decisions
+              those tools are meant to improve.
+            </p>
+          </div>
+        </div>
+      </Container>
+    </section>
+
+    <section class="border-t border-line bg-panel/25 py-16 md:py-24">
+      <Container>
+        <div class="grid gap-10 lg:grid-cols-[14rem_minmax(0,1fr)]">
+          <div>
+            <p class="eyebrow">Current focus</p>
+            <h2 class="mt-3 font-display text-3xl tracking-[-0.035em]">Three connected practices</h2>
+          </div>
+          <div class="practice-grid">
+            <article>
+              <span>01</span>
+              <h3>Quantitative research</h3>
+              <p>Factor discovery, market regimes, backtesting, and the design of genuinely held-out evaluation.</p>
+              <a href="/projects/minute-factor">Minute-scale case ↗</a>
+            </article>
+            <article>
+              <span>02</span>
+              <h3>Evidence and data systems</h3>
+              <p>Distributed computation, graph representation, data quality, and source-level research trails.</p>
+              <a href="/projects/fund-research">Fund-research dossier ↗</a>
+            </article>
+            <article>
+              <span>03</span>
+              <h3>Applied AI</h3>
+              <p>Training-data curation, small-model adaptation, product fallbacks, and semantic audit.</p>
+              <a href="/projects/cuedata">CueData case ↗</a>
+            </article>
+          </div>
+        </div>
+      </Container>
+    </section>
+
+    <section class="border-t border-line py-16 md:py-24">
+      <Container>
+        <div class="grid gap-10 lg:grid-cols-[14rem_minmax(0,1fr)]">
+          <div>
+            <p class="eyebrow">Education</p>
+            <h2 class="mt-3 font-display text-3xl tracking-[-0.035em]">Formal study and short programmes</h2>
+          </div>
+          <div class="education-list">
+            <article>
+              <p>2023 — 2027</p>
+              <div>
+                <h3>Southern University of Science and Technology</h3>
+                <span>B.S. in Data Science and Big Data Technology · expected Jun 2027</span>
+              </div>
+              <p>Shenzhen, China</p>
+            </article>
+            <article>
+              <p>Summer 2025</p>
+              <div>
+                <h3>University of California, Berkeley · Summer Sessions</h3>
+                <span>UGBA 142 Advanced Business Analytics (A) · DATA C100 (B)</span>
+              </div>
+              <p>Berkeley, USA</p>
+            </article>
+            <article>
+              <p>12 — 25 Jan 2025</p>
+              <div>
+                <h3>Oxford International Study Abroad Programme (OISAP)</h3>
+                <span>2025 Winter School · Artificial Intelligence and Machine Learning · two-week short course (A+)</span>
+              </div>
+              <p>Oxford, UK</p>
+            </article>
+          </div>
+        </div>
+      </Container>
+    </section>
+
+    <section class="border-t border-line py-16 md:py-24">
+      <Container>
+        <div class="human-grid">
+          <div>
+            <p class="eyebrow">Beyond the work</p>
+            <h2>Strategy, attention, and the world outside a dataset.</h2>
+          </div>
+          <div class="human-notes">
+            <p>
+              I play Go at amateur 3-dan. I like it for the same reason I like research: a local move
+              can look attractive until the whole board changes its meaning.
+            </p>
+            <p>
+              Photography and travel pull me in the other direction—toward observation before
+              abstraction. I also worked in student leadership from 2023 to 2025, eventually leading a
+              ten-person external-relations team.
+            </p>
+          </div>
+        </div>
+      </Container>
+    </section>
+
+    <section class="border-t border-line bg-panel/25 py-16 md:py-20">
+      <Container>
+        <div class="contact-row">
+          <div>
+            <p class="eyebrow">Contact</p>
+            <h2>Questions, programmes, or research worth discussing.</h2>
+          </div>
+          <a href={`mailto:${site.email}`}>{site.email} ↗</a>
+        </div>
+      </Container>
+    </section>
+</BaseLayout>
+
+<style>
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    line-height: 1.5;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-signal);
+  }
+
+  .profile-story {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .profile-story > div {
+    max-width: 52rem;
+  }
+
+  .profile-story > div > p {
+    margin-top: 1.5rem;
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: var(--color-muted);
+  }
+
+  .profile-story .story-lead {
+    margin-top: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3.6vw, 3.2rem);
+    line-height: 1.25;
+    letter-spacing: -0.035em;
+    color: var(--color-ink);
+  }
+
+  .practice-grid {
+    display: grid;
+    border: 1px solid var(--color-line);
+  }
+
+  .practice-grid article {
+    min-height: 20rem;
+    padding: 1.5rem;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .practice-grid article:first-child {
+    border-top: 0;
+  }
+
+  .practice-grid span {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-signal);
+  }
+
+  .practice-grid h3 {
+    margin-top: 5rem;
+    font-family: var(--font-display);
+    font-size: 1.55rem;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+  }
+
+  .practice-grid p {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--color-muted);
+  }
+
+  .practice-grid a {
+    display: inline-block;
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--color-signal);
+  }
+
+  .education-list {
+    border-top: 1px solid var(--color-line);
+  }
+
+  .education-list article {
+    display: grid;
+    gap: 1rem;
+    border-bottom: 1px solid var(--color-line);
+    padding-block: 1.75rem;
+  }
+
+  .education-list article > p {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    line-height: 1.6;
+    color: var(--color-faint);
+  }
+
+  .education-list h3 {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    line-height: 1.25;
+    letter-spacing: -0.025em;
+  }
+
+  .education-list span {
+    display: block;
+    margin-top: 0.55rem;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: var(--color-muted);
+  }
+
+  .human-grid,
+  .contact-row {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .human-grid h2,
+  .contact-row h2 {
+    margin-top: 1rem;
+    max-width: 45rem;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4.5vw, 4rem);
+    line-height: 1.05;
+    letter-spacing: -0.045em;
+  }
+
+  .human-notes {
+    max-width: 40rem;
+  }
+
+  .human-notes p {
+    margin-top: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--color-muted);
+  }
+
+  .contact-row a {
+    align-self: end;
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    color: var(--color-signal);
+  }
+
+  @media (min-width: 760px) {
+    .profile-story {
+      grid-template-columns: 14rem minmax(0, 1fr);
+    }
+
+    .practice-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .practice-grid article {
+      border-top: 0;
+      border-left: 1px solid var(--color-line);
+    }
+
+    .practice-grid article:first-child {
+      border-left: 0;
+    }
+
+    .education-list article {
+      grid-template-columns: 8rem minmax(0, 1fr) 9rem;
+      align-items: start;
+      gap: 2rem;
+    }
+
+    .education-list article > p:last-child {
+      text-align: right;
+    }
+
+    .human-grid {
+      grid-template-columns: minmax(0, 1.15fr) minmax(20rem, 0.85fr);
+      align-items: end;
+    }
+
+    .contact-row {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+    }
+  }
+</style>

@@ -1,0 +1,48 @@
+---
+title: "Turning 100,000 Math Webpages into Traceable SFT Data"
+shortTitle: "Traceable reasoning data"
+category: "Applied AI"
+status: "Completed · four-person course project"
+role: "Responsible for data-quality rules, SFT construction, and training monitoring · four-person team"
+context: "Large Language Models · SUSTech"
+dates: "Apr 2026 — May 2026"
+summary: "I used failure analysis to turn a noisy webpage corpus into source-traceable reasoning examples, then used a small generation probe to question whether lower loss was masking early overfitting."
+featured: false
+caseFormat: "study"
+order: 5
+tags: ["Dataset engineering", "Evaluation", "Language models"]
+visual: "sft-audit"
+question: "How do you turn long, noisy math webpages into training examples whose question, reasoning, and final answer can each be traced and checked?"
+challenge: "The source pages mixed menus, discussion threads, multiple problems, diagram-dependent questions, prompt fragments, and contradictory answers. Simple pattern matching produced more data quickly—and many examples whose answer belonged to a different question."
+contributions:
+  - "Audited failure samples through seven rule iterations and changed the acceptance criterion from formatting alone to question–solution–answer evidence consistency."
+  - "Built source-unit routing, prompt hashes, provenance fields, rejection reasons, and streaming audit outputs for every retained or rejected candidate."
+  - "Preferred reasoning extracted from the source; when that path failed, required two low-temperature model samples to agree on the final answer."
+  - "Added generation checks during LoRA training so checkpoint choice depended on both validation loss and answer behavior."
+process:
+  - number: "01"
+    title: "Let false positives redesign the rules"
+    body: "Titles mistaken for questions and answers borrowed from neighboring problems exposed why a clean-looking format was not enough."
+  - number: "02"
+    title: "Route by source structure"
+    body: "Problem–solution units, concept documents, expandable seeds, and low-value pages followed different paths rather than one parser."
+  - number: "03"
+    title: "Keep an evidence chain"
+    body: "Each candidate retained its source unit, extraction route, prompt hash, final answer, quality score, and acceptance or rejection reason."
+  - number: "04"
+    title: "Evaluate what the model generates"
+    body: "A 16-example generation probe deteriorated while the validation-loss trend still looked favorable, suggesting a gap that the scalar loss alone did not make visible."
+metrics:
+  - value: "100,000"
+    label: "source records processed"
+    detail: "Long-form Nemotron math webpages rather than ready-made question/answer rows."
+  - value: "1,146"
+    label: "source-traceable examples retained"
+    detail: "610 source-teacher examples plus 536 dual-sampling agreements. Agreement is a consistency filter, not proof of correctness."
+  - value: "7 versions"
+    label: "of the quality rules"
+    detail: "Each iteration was driven by inspected failure modes, not by yield alone."
+outcome: "The final pipeline produced SFT data, source links, rejection reasons, a funnel report, and a dataset card. A small generation probe then raised a second question: whether later checkpoints were already overfitting despite a more favorable loss trend."
+limitation: "The retained dataset is small relative to the source corpus, and the generation probe contained only 16 examples. Dual-sampling agreement measures consistency rather than answer correctness; a larger accepted set and a full held-out evaluation are still needed."
+reflection: "Dataset yield is not quality. The useful result was a pipeline that could explain why an example remained—and a training run that generated a concrete warning worth testing on a larger evaluation set."
+---

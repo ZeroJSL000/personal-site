@@ -1,0 +1,216 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/Container.astro";
+import ExperienceItem from "../components/ExperienceItem.astro";
+import { getCollection } from "astro:content";
+
+const roles = (await getCollection("experience")).sort((a, b) => a.data.order - b.data.order);
+const projects = await getCollection("project");
+const projectMap = new Map(projects.map((project) => [project.id, project]));
+---
+
+<BaseLayout title="Experience" description="Industry and research experience across investment research, quantitative systems, graph analytics, and risk.">
+    <header class="border-b border-line py-16 md:py-24">
+      <Container>
+        <div class="grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(20rem,0.85fr)] lg:items-end">
+          <div>
+            <p class="eyebrow">Experience</p>
+            <h1 class="mt-5 max-w-4xl font-display text-5xl leading-[0.96] tracking-[-0.055em] md:text-7xl">
+              Where the research had to meet a real constraint.
+            </h1>
+          </div>
+          <div class="border-l border-signal/55 pl-6 md:pl-8">
+            <p class="text-lg leading-8 text-muted">
+              These roles taught me to see data quality, model evaluation, and source provenance as
+              part of the work—not cleanup after the result.
+            </p>
+          </div>
+        </div>
+
+        <nav class="role-index" aria-label="Selected roles and research">
+          {
+            roles.map((role) => (
+              <a href={`#${role.id}`}>
+                <span>{role.data.dates}</span>
+                <strong>{role.data.org}</strong>
+              </a>
+            ))
+          }
+        </nav>
+      </Container>
+    </header>
+
+    <section class="py-8 md:py-12">
+      <Container>
+        {
+          roles.map((role) => {
+            const related = role.data.relatedProjects
+              .map((id) => projectMap.get(id))
+              .filter((project) => project !== undefined)
+              .map((project) => ({ href: `/projects/${project.id}`, label: project.data.shortTitle }));
+
+            return (
+              <ExperienceItem
+                id={role.id}
+                org={role.data.org}
+                role={role.data.role}
+                dates={role.data.dates}
+                location={role.data.location}
+                lens={role.data.lens}
+                summary={role.data.summary}
+                contributions={role.data.contributions}
+                evidence={role.data.evidence}
+                tags={role.data.tags}
+                featured={role.data.featured}
+                related={related}
+              />
+            );
+          })
+        }
+      </Container>
+    </section>
+
+    <section class="border-t border-line bg-panel/25 py-16 md:py-24">
+      <Container>
+        <div class="grid gap-10 lg:grid-cols-[14rem_minmax(0,1fr)]">
+          <div>
+            <p class="eyebrow">Leadership</p>
+            <h2 class="mt-3 font-display text-3xl leading-tight tracking-[-0.035em]">Work beyond the technical brief</h2>
+          </div>
+          <div class="leadership-grid">
+            <article>
+              <p>2023 — 2025</p>
+              <h3>External Relations · Zhicheng College Student Union</h3>
+              <div>
+                Led a ten-person team working across company outreach, campus visits, sponsorship,
+                and large-event coordination.
+              </div>
+            </article>
+            <article>
+              <p>2024 — 2025</p>
+              <h3>Peer mentor for incoming students</h3>
+              <div>
+                Supported more than one hundred first-year students through orientation, study and
+                campus-life questions, while collecting feedback for the college team.
+              </div>
+            </article>
+            <article>
+              <p>Earlier campus work</p>
+              <h3>Intel campus ambassador · New Oriental market assistant</h3>
+              <div>
+                Planned and delivered campus communications and events. These are included as early
+                communication experience, not presented as technical internships.
+              </div>
+            </article>
+          </div>
+        </div>
+      </Container>
+    </section>
+</BaseLayout>
+
+<style>
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    line-height: 1.5;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-signal);
+  }
+
+  .role-index {
+    display: grid;
+    margin-top: 3.5rem;
+    border-block: 1px solid var(--color-line);
+  }
+
+  .role-index a {
+    padding: 1rem 0;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .role-index a:first-child {
+    border-top: 0;
+  }
+
+  .role-index span,
+  .role-index strong {
+    display: block;
+  }
+
+  .role-index span {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--color-faint);
+  }
+
+  .role-index strong {
+    margin-top: 0.45rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-ink);
+    transition: color 180ms ease;
+  }
+
+  .role-index a:hover strong,
+  .role-index a:focus-visible strong {
+    color: var(--color-signal);
+  }
+
+  .leadership-grid {
+    border-top: 1px solid var(--color-line);
+  }
+
+  .leadership-grid article {
+    display: grid;
+    gap: 1rem;
+    border-bottom: 1px solid var(--color-line);
+    padding-block: 2rem;
+  }
+
+  .leadership-grid article > p {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-faint);
+  }
+
+  .leadership-grid h3 {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    line-height: 1.25;
+    letter-spacing: -0.025em;
+  }
+
+  .leadership-grid article > div {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--color-muted);
+  }
+
+  @media (min-width: 640px) {
+    .role-index {
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    .role-index a {
+      border-top: 0;
+      border-left: 1px solid var(--color-line);
+      padding: 1.1rem;
+    }
+
+    .role-index a:first-child {
+      border-left: 0;
+      padding-left: 0;
+    }
+  }
+
+  @media (min-width: 800px) {
+    .leadership-grid article {
+      grid-template-columns: 9rem minmax(14rem, 0.7fr) minmax(0, 1.3fr);
+      align-items: start;
+      gap: 2rem;
+    }
+  }
+</style>

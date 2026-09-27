@@ -1,0 +1,48 @@
+---
+title: "When 0.99 Validation Did Not Survive New Images"
+shortTitle: "Validation under domain shift"
+category: "Applied AI"
+status: "Completed · four-person course project"
+role: "Team member across preprocessing, evaluation, training, and submission"
+context: "Data Mining · SUSTech"
+dates: "May 2026 — Jun 2026"
+summary: "A meteorite classifier with near-perfect cross-validation failed on a new image domain. I contributed across the redesigned preprocessing, evaluation, training, and final submission workflow."
+featured: false
+caseFormat: "study"
+order: 6
+tags: ["Computer vision", "Domain shift", "Model selection"]
+visual: "domain-shift"
+question: "What should we trust when cross-validation says 0.99 but the model fails on the images that matter?"
+challenge: "Training and later evaluation images differed in background, lighting, scale, camera angle, and class balance. Strong augmentation appeared to inflate validation while teaching shortcuts that did not transfer."
+contributions:
+  - "Contributed to replacing distortion-prone resizing with longest-edge scaling and padding so meteorite shape and texture were preserved."
+  - "Contributed to the stratified five-fold out-of-fold design and augmentation ablations so candidates were compared on the same splits."
+  - "Helped keep pseudo-labelled images inside training folds only and out of every real validation fold."
+  - "Participated in probability and class-count checks, final-model selection, and the team submission."
+process:
+  - number: "01"
+    title: "Inspect the domain, not only the score"
+    body: "Backgrounds, scales, and capture conditions revealed a shift that random folds inside the training set could not represent."
+  - number: "02"
+    title: "Preserve the object"
+    body: "Resize–pad preprocessing maintained aspect ratio; destructive augmentations were removed after controlled ablations."
+  - number: "03"
+    title: "Make experiments comparable"
+    body: "Every real image served as hold-out data in one fold, and each candidate used the same splits and logging."
+  - number: "04"
+    title: "Calibrate with humility"
+    body: "OOF probability, competition feedback, and plausible class counts informed the final decision without pretending the later set was untouched."
+metrics:
+  - value: "0.9924 / 0.5638"
+    label: "OOF / later-set F1 for the early approach"
+    detail: "The gap that forced a change in what the team trusted."
+  - value: "0.93808"
+    label: "final out-of-fold F1"
+    detail: "Lower than the misleading early score, but more candid under the revised pipeline."
+  - value: "0.83720"
+    label: "stage-two evaluation F1"
+    detail: "A team result from the final SwinV2 workflow on one competition evaluation."
+outcome: "The final SwinV2 pipeline improved the later-set F1 substantially while producing a more believable out-of-fold score. The project became an exercise in choosing evidence under domain shift, not simply choosing an architecture."
+limitation: "Competition feedback and a class-count prior informed the final calibration, so the stage-two result is not a pristine independent test. The team contribution and single evaluation should remain explicit."
+reflection: "The most impressive validation score was the least useful one. Inspecting the domain and prediction distribution changed the model-selection process more than another round of tuning."
+---

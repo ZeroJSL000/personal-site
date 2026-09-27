@@ -1,0 +1,85 @@
+---
+import { site } from "../../data/site";
+---
+
+<section data-home-stage class="relative h-[340svh]">
+  <div class="sticky top-0 flex h-svh flex-col overflow-hidden">
+    <canvas
+      id="signal-canvas"
+      class="pointer-events-none absolute inset-0 h-full w-full"
+      aria-hidden="true"
+    ></canvas>
+    <div class="relative z-10 mx-auto flex h-full w-full max-w-6xl items-end px-5 pb-16 pt-24 md:px-8 md:pb-20">
+      <div class="w-full max-w-xl rounded-sm bg-gradient-to-t from-canvas via-canvas/85 to-transparent pt-10 pr-6 md:w-[44%] md:max-w-none md:pr-10">
+        <div class="beat-stack relative h-12 md:h-14">
+          <p data-beat class="absolute font-display text-xl tracking-tight text-ink md:text-2xl">
+            Start with the market data.
+          </p>
+          <p data-beat class="absolute font-display text-xl tracking-tight text-ink md:text-2xl">
+            Build a signal you can explain.
+          </p>
+          <p data-beat class="absolute font-display text-xl tracking-tight text-signal md:text-2xl">
+            Test it on days it has never seen.
+          </p>
+        </div>
+        <h1 class="mt-5 font-display text-5xl leading-[0.95] tracking-tight md:text-6xl lg:text-7xl">
+          {site.name}
+        </h1>
+        <p class="mt-4 font-mono text-[11px] uppercase tracking-[0.2em] text-signal md:text-xs">
+          {site.school}
+        </p>
+        <p class="mt-4 max-w-md text-base text-ink/75 md:text-lg">{site.tagline}</p>
+        <div class="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-[11px] uppercase tracking-[0.18em] text-faint">
+          <p>Scroll to watch noise become a chart</p>
+          <a class="text-signal hover:text-ink" href="#selected-work" data-skip-work>
+            Skip to work ↓
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  [data-beat] {
+    opacity: 0;
+  }
+  [data-beat]:first-child {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-beat] {
+      position: static;
+      opacity: 1;
+      margin-bottom: 0.4rem;
+    }
+    .beat-stack {
+      height: auto;
+    }
+    [data-home-stage] {
+      height: 100svh;
+    }
+  }
+</style>
+
+<script>
+  import { initHomeNarrative } from "./home-narrative";
+
+  const skipWork = document.querySelector<HTMLAnchorElement>("[data-skip-work]");
+  skipWork?.addEventListener("click", (event) => {
+    const target = document.querySelector<HTMLElement>("#selected-work");
+    if (!target) return;
+
+    event.preventDefault();
+    const root = document.documentElement;
+    const previousBehavior = root.style.scrollBehavior;
+    root.style.scrollBehavior = "auto";
+    target.scrollIntoView({ block: "start" });
+    history.replaceState(null, "", "#selected-work");
+    requestAnimationFrame(() => {
+      root.style.scrollBehavior = previousBehavior;
+    });
+  });
+
+  initHomeNarrative();
+</script>

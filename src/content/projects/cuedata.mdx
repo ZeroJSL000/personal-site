@@ -1,0 +1,48 @@
+---
+title: "CueData: An AI-Assisted Analysis Planner"
+shortTitle: "CueData analysis planner"
+category: "Applied AI"
+status: "Working MVP · independent course project"
+role: "Independent builder"
+context: "Big Data Analysis · SUSTech"
+dates: "May 2026 — Jun 2026"
+summary: "I curated a traceable SFT dataset, fine-tuned a compact language model, and built a web app that turns an uploaded table and a plain-language question into a six-step analysis plan."
+featured: true
+caseFormat: "case"
+order: 3
+tags: ["Data curation", "LoRA", "Product reliability"]
+visual: "analysis-agent"
+question: "Can a small fine-tuned model help a non-programmer plan an analysis without hiding uncertainty or service failure?"
+challenge: "The starting instruction traces contained duplicates and shallow answers. The product then had to handle messy files, one-GPU concurrency, model-service failure, restricted campus networking, and logs that should never retain a user's raw upload."
+contributions:
+  - "Parsed and scored 11,707 instruction traces, removed exact and near duplicates, and applied minimum task-type quotas before creating fixed train and validation splits."
+  - "Fine-tuned a compact language-model checkpoint with LoRA using Ray Train and compared it with the base model on the same 500-item validation set."
+  - "Built a Streamlit flow for CSV/XLSX upload, data profiling, a six-step plan, optional simple regression, and Markdown export."
+  - "Added a single-GPU queue, three-tier inference fallback, visible failure states, and privacy-aware logs that omit raw uploads."
+process:
+  - number: "01"
+    title: "Curate before training"
+    body: "Quality, complexity, and relevance scores were combined with task-type quotas so a high score did not simply select more EDA examples."
+  - number: "02"
+    title: "Keep the comparison fixed"
+    body: "A deterministic 2,000-item training set and separate 500-item validation set made the base-versus-LoRA comparison interpretable."
+  - number: "03"
+    title: "Design the product contract"
+    body: "The interface promises a profile, a six-step plan, a simple regression path, and an export—not an unrestricted autonomous analysis."
+  - number: "04"
+    title: "Make failure legible"
+    body: "Local LoRA, a hosted model, and a structured template form an explicit fallback chain; the page tells the user which path answered."
+metrics:
+  - value: "1.612 → 1.011"
+    label: "fixed validation-set loss"
+    detail: "A 37.26% reduction on the same fixed 500-item validation set."
+  - value: "2,000 + 500"
+    label: "deterministic train / validation split"
+    detail: "No normalized-text hash overlap between the two splits."
+  - value: "3 tiers"
+    label: "of inference fallback"
+    detail: "Local LoRA, hosted model, then a structured template with the active engine shown."
+outcome: "The working MVP accepts a spreadsheet, profiles its fields, turns a question into a structured plan, exposes queue and fallback state, and exports a Markdown report. The training result and the product result are reported separately."
+limitation: "Lower language-model loss is not evidence that the plan is more correct or useful. The project still needs a held-out question set and blind human rubric; the larger Spark-and-Ray architecture is a capacity design, not a load-tested production result."
+reflection: "A model metric can justify another experiment. A product earns trust differently: by stating its scope, surviving failure, and making the active path visible to the person using it."
+---

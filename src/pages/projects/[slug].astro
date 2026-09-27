@@ -1,0 +1,531 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Container from "../../components/Container.astro";
+import CaseVisual from "../../components/CaseVisual.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("project");
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const allProjects = (await getCollection("project")).sort((a, b) => a.data.order - b.data.order);
+const currentIndex = allProjects.findIndex((entry) => entry.id === project.id);
+const previousProject = currentIndex > 0 ? allProjects[currentIndex - 1] : undefined;
+const nextProject = currentIndex < allProjects.length - 1 ? allProjects[currentIndex + 1] : undefined;
+const isBrief = project.data.caseFormat === "brief";
+const isStudy = project.data.caseFormat === "study";
+const isFullCase = project.data.caseFormat === "case";
+const visibleContributions = isFullCase ? project.data.contributions : project.data.contributions.slice(0, 3);
+---
+
+<BaseLayout title={project.data.title} description={project.data.summary}>
+  <article class:list={["case-study", { "case-study--compact": !isFullCase }]}> 
+    <header class="border-b border-line pt-10 pb-12 md:pt-16 md:pb-16">
+      <Container>
+        <a class="back-link" href="/projects">← All work</a>
+
+        <div class="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1.25fr)_minmax(18rem,0.75fr)] lg:gap-20">
+          <div>
+            <p class="eyebrow">{project.data.category}</p>
+            <h1 class="mt-5 max-w-4xl font-display text-5xl leading-[0.98] tracking-[-0.05em] text-ink md:text-7xl">
+              {project.data.title}
+            </h1>
+          </div>
+          <div class="self-end border-l border-signal/55 pl-6 md:pl-8">
+            <p class="text-lg leading-8 text-ink">{project.data.summary}</p>
+            <p class="mt-6 font-mono text-[0.75rem] leading-5 text-faint">
+              {project.data.context}<br />{project.data.dates}
+            </p>
+          </div>
+        </div>
+
+        <dl class="mt-12 grid border-y border-line sm:grid-cols-2">
+          <div class="fact-cell">
+            <dt>Role</dt>
+            <dd>{project.data.role}</dd>
+          </div>
+          <div class="fact-cell">
+            <dt>Stage &amp; setting</dt>
+            <dd>{project.data.status}</dd>
+          </div>
+        </dl>
+      </Container>
+    </header>
+
+    <section class="py-8 md:py-12">
+      <Container>
+        <CaseVisual kind={project.data.visual} />
+      </Container>
+    </section>
+
+    <nav class="case-nav" aria-label="On this case study">
+      <Container class="case-nav-inner flex gap-6 overflow-x-auto py-4 font-mono text-[0.72rem] uppercase tracking-[0.12em] text-faint">
+        <a href="#question">Question</a>
+        <a href="#ownership">{isBrief ? "Work" : isStudy ? "Contribution" : "Ownership"}</a>
+        {isFullCase && <a href="#approach">Approach</a>}
+        <a href="#evidence">Evidence</a>
+        <a href="#limits">Limits</a>
+      </Container>
+    </nav>
+
+    <div class="pb-20 md:pb-28">
+      <Container>
+        <section id="question" class="case-section">
+          <div>
+            <p class="section-number">01 / Question</p>
+            <h2>The problem worth testing</h2>
+          </div>
+          <div class="space-y-6">
+            <p class="lead-question">{project.data.question}</p>
+            <p>{project.data.challenge}</p>
+          </div>
+        </section>
+
+        <section id="ownership" class="case-section">
+          <div>
+            <p class="section-number">{isBrief ? "02 / Work" : isStudy ? "02 / Contribution" : "02 / Ownership"}</p>
+            <h2>{isBrief ? "What was built or tested" : isStudy ? "Where I contributed" : "What I was responsible for"}</h2>
+          </div>
+          <ol class="ownership-list">
+            {visibleContributions.map((item, index) => (
+              <li>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <p>{item}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        {
+          isFullCase && (
+            <section id="approach" class="block-section">
+              <div class="section-heading">
+                <p class="section-number">03 / Approach</p>
+                <h2>How the work progressed</h2>
+              </div>
+              <div class="process-grid">
+                {project.data.process.map((step) => (
+                  <article>
+                    <p>{step.number}</p>
+                    <h3>{step.title}</h3>
+                    <div>{step.body}</div>
+                  </article>
+                ))}
+              </div>
+            </section>
+          )
+        }
+
+        <section id="evidence" class="block-section">
+          <div class="section-heading">
+            <p class="section-number">{isFullCase ? "04 / Evidence" : "03 / Evidence"}</p>
+            <h2>What the evidence actually supports</h2>
+          </div>
+          <dl class="metric-grid">
+            {project.data.metrics.map((metric) => (
+              <div>
+                <dt>{metric.value}</dt>
+                <dd>
+                  <strong>{metric.label}</strong>
+                  {metric.detail && <span>{metric.detail}</span>}
+                </dd>
+              </div>
+            ))}
+          </dl>
+          <div class="verdict">
+            <p class="eyebrow">Result</p>
+            <p>{project.data.outcome}</p>
+          </div>
+        </section>
+
+        <section id="limits" class="case-section limits-section">
+          <div>
+            <p class="section-number">{isFullCase ? "05 / Boundaries" : "04 / Boundaries"}</p>
+            <h2>What this work does not prove</h2>
+          </div>
+          <div class="space-y-8">
+            <p>{project.data.limitation}</p>
+            <blockquote>{project.data.reflection}</blockquote>
+            {
+              project.data.relatedExperience && (
+                <p>
+                  <a class="inline-link" href={`/experience#${project.data.relatedExperience}`}>
+                    View the related experience →
+                  </a>
+                </p>
+              )
+            }
+          </div>
+        </section>
+      </Container>
+    </div>
+
+    <footer class="border-t border-line">
+      <Container class="grid md:grid-cols-2">
+        {
+          previousProject ? (
+            <a class="case-pagination" href={`/projects/${previousProject.id}`}>
+              <span>Previous case</span>
+              <strong>← {previousProject.data.shortTitle}</strong>
+            </a>
+          ) : (
+            <a class="case-pagination" href="/projects">
+              <span>Return</span>
+              <strong>← All work</strong>
+            </a>
+          )
+        }
+        {
+          nextProject ? (
+            <a class="case-pagination md:text-right" href={`/projects/${nextProject.id}`}>
+              <span>Next case</span>
+              <strong>{nextProject.data.shortTitle} →</strong>
+            </a>
+          ) : (
+            <a class="case-pagination md:text-right" href="/about">
+              <span>Continue</span>
+              <strong>Profile →</strong>
+            </a>
+          )
+        }
+      </Container>
+    </footer>
+  </article>
+</BaseLayout>
+
+<style>
+  .back-link,
+  .inline-link {
+    color: var(--color-signal);
+    font-size: 0.875rem;
+    text-decoration: none;
+  }
+
+  .back-link:hover,
+  .inline-link:hover {
+    text-decoration: underline;
+  }
+
+  .eyebrow,
+  .section-number {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    line-height: 1.5;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-signal);
+  }
+
+  .fact-cell {
+    padding: 1.25rem 0;
+  }
+
+  .fact-cell + .fact-cell {
+    border-top: 1px solid var(--color-line);
+  }
+
+  .fact-cell dt {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-faint);
+  }
+
+  .fact-cell dd {
+    margin-top: 0.55rem;
+    max-width: 16rem;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: var(--color-ink);
+  }
+
+  .case-nav {
+    position: sticky;
+    top: 4.75rem;
+    z-index: 20;
+    border-block: 1px solid var(--color-line);
+    background: color-mix(in srgb, var(--color-canvas) 90%, transparent);
+    backdrop-filter: blur(16px);
+  }
+
+  .case-nav a {
+    flex: 0 0 auto;
+    transition: color 180ms ease;
+  }
+
+  .case-nav a:hover,
+  .case-nav a:focus-visible {
+    color: var(--color-ink);
+  }
+
+  .case-nav :global(.case-nav-inner) {
+    scrollbar-width: none;
+  }
+
+  .case-nav :global(.case-nav-inner::-webkit-scrollbar) {
+    display: none;
+  }
+
+  .case-section,
+  .block-section {
+    scroll-margin-top: 9rem;
+    border-bottom: 1px solid var(--color-line);
+    padding-block: 5rem;
+  }
+
+  .case-study--compact .case-section,
+  .case-study--compact .block-section {
+    padding-block: 4rem;
+  }
+
+  .case-study--compact .verdict {
+    max-width: 58rem;
+  }
+
+  .case-section {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .case-section h2,
+  .section-heading h2 {
+    margin-top: 0.8rem;
+    max-width: 30rem;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.5vw, 3.25rem);
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+  }
+
+  .case-section > div:last-child > p:not(.lead-question),
+  .limits-section > div:last-child > p {
+    max-width: 45rem;
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: var(--color-muted);
+  }
+
+  .lead-question {
+    max-width: 48rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3vw, 2.8rem);
+    line-height: 1.18;
+    letter-spacing: -0.035em;
+    color: var(--color-ink);
+  }
+
+  .ownership-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .ownership-list li {
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    gap: 1rem;
+    border-top: 1px solid var(--color-line);
+    padding-block: 1.25rem;
+  }
+
+  .ownership-list li:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .ownership-list span {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-signal);
+  }
+
+  .ownership-list p {
+    max-width: 44rem;
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--color-muted);
+  }
+
+  .process-grid {
+    display: grid;
+    gap: 1px;
+    margin-top: 3rem;
+    background: var(--color-line);
+    border: 1px solid var(--color-line);
+  }
+
+  .process-grid article {
+    min-height: 16rem;
+    background: var(--color-canvas);
+    padding: 1.5rem;
+  }
+
+  .process-grid article > p {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-signal);
+  }
+
+  .process-grid h3 {
+    margin-top: 4rem;
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+  }
+
+  .process-grid article > div {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--color-muted);
+  }
+
+  .metric-grid {
+    display: grid;
+    margin-top: 3rem;
+    border-block: 1px solid var(--color-line);
+  }
+
+  .metric-grid > div {
+    display: grid;
+    gap: 1.25rem;
+    padding-block: 1.75rem;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .metric-grid > div:first-child {
+    border-top: 0;
+  }
+
+  .metric-grid dt {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 5vw, 4.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.05em;
+    color: var(--color-ink);
+  }
+
+  .metric-grid dd strong,
+  .metric-grid dd span {
+    display: block;
+  }
+
+  .metric-grid dd strong {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-ink);
+  }
+
+  .metric-grid dd span {
+    margin-top: 0.55rem;
+    max-width: 24rem;
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: var(--color-muted);
+  }
+
+  .verdict {
+    margin-top: 3rem;
+    display: grid;
+    gap: 1.25rem;
+    border-left: 2px solid var(--color-signal);
+    padding: 0.25rem 0 0.25rem 1.5rem;
+  }
+
+  .verdict > p:last-child {
+    max-width: 55rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+    line-height: 1.35;
+    letter-spacing: -0.025em;
+  }
+
+  blockquote {
+    max-width: 48rem;
+    border-top: 1px solid var(--color-line);
+    padding-top: 1.5rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 2.2vw, 2rem);
+    line-height: 1.45;
+    letter-spacing: -0.025em;
+    color: var(--color-ink);
+  }
+
+  .case-pagination {
+    display: block;
+    min-height: 10rem;
+    padding-block: 2.5rem;
+    transition: background-color 180ms ease;
+  }
+
+  .case-pagination + .case-pagination {
+    border-top: 1px solid var(--color-line);
+  }
+
+  .case-pagination span {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-faint);
+  }
+
+  .case-pagination strong {
+    display: block;
+    margin-top: 1rem;
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 500;
+    color: var(--color-ink);
+  }
+
+  @media (min-width: 640px) {
+    .fact-cell {
+      padding: 1.5rem;
+    }
+
+    .fact-cell + .fact-cell {
+      border-top: 0;
+      border-left: 1px solid var(--color-line);
+    }
+
+    .metric-grid > div {
+      grid-template-columns: minmax(12rem, 0.7fr) minmax(0, 1fr);
+      align-items: center;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .case-section {
+      grid-template-columns: minmax(14rem, 0.7fr) minmax(0, 1.3fr);
+      gap: 5rem;
+    }
+
+    .process-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .case-pagination {
+      padding: 3rem;
+    }
+
+    .case-pagination + .case-pagination {
+      border-top: 0;
+      border-left: 1px solid var(--color-line);
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .process-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>

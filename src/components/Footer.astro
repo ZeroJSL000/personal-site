@@ -1,0 +1,14 @@
+---
+import { site } from "../data/site";
+---
+
+<footer class="border-t border-line">
+  <div class="mx-auto flex max-w-6xl flex-col gap-3 px-5 py-10 font-mono text-[11px] uppercase tracking-[0.16em] text-faint md:flex-row md:items-center md:justify-between md:px-8">
+    <p class="normal-case tracking-normal">Shanglin Jiang · Data Science at SUSTech</p>
+    <p class="flex flex-wrap gap-x-5 gap-y-2">
+      <a class="hover:text-signal" href={`mailto:${site.email}`}>{site.email}</a>
+      {site.github ? <a class="hover:text-signal" href={site.github}>GitHub</a> : null}
+      {site.cvHref ? <a class="hover:text-signal" href={site.cvHref}>CV</a> : null}
+    </p>
+  </div>
+</footer>

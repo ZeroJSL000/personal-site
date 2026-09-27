@@ -1,0 +1,318 @@
+---
+interface Props {
+  kind:
+    | "factor-pipeline"
+    | "fund-audit"
+    | "analysis-agent"
+    | "regime-test"
+    | "graph-risk"
+    | "sft-audit"
+    | "analytics-audit"
+    | "domain-shift"
+    | "mapreduce"
+    | "exit-curve";
+}
+
+const { kind } = Astro.props;
+const visualDescriptions: Record<Props["kind"], string> = {
+  "factor-pipeline": "Minute-scale factor pipeline from compact CPU storage through batched GPU calculation to three evaluation routes.",
+  "fund-audit": "Sanitized fund-research workflow connecting raw observations, quality rules, entity definitions, and source-level evidence.",
+  "analysis-agent": "CueData working path from spreadsheet upload through profiling and analysis planning to a Markdown report, with three inference fallbacks.",
+  "regime-test": "Leakage-controlled market-regime experiment showing train-only fitting and weak held-out results.",
+  "graph-risk": "Typed entity-relation graph used to design interpretable credit-risk features before baseline comparison.",
+  "sft-audit": "Training-data funnel from one hundred thousand source records to 1,146 retained examples, with rejection reasons preserved.",
+  "analytics-audit": "Four review gates for generated analysis: artifact, computation, statistical assumptions, and business meaning.",
+  "domain-shift": "Comparison of out-of-fold and later-set F1 before and after redesigning an image-classification pipeline for domain shift.",
+  mapreduce: "Distributed factor pipeline from HDFS through map, combine, and reduce stages, followed by an independent Python check.",
+  "exit-curve": "Illustration comparing a declining time-dependent profit threshold with an illustrative position-profit path; their first intersection marks the exit trigger. This is not a performance result.",
+};
+---
+
+<figure class="visual-shell">
+  <figcaption class="sr-only">{visualDescriptions[kind]}</figcaption>
+  {
+    kind === "factor-pipeline" && (
+      <div class="factor-diagram">
+        <div class="visual-head">
+          <span>Minute-scale research pipeline</span>
+          <span>constraint → evaluation</span>
+        </div>
+        <div class="pipeline-row">
+          <div class="node strong"><small>CPU</small><b>compact data</b><span>multi-year store</span></div>
+          <i aria-hidden="true">→</i>
+          <div class="node"><small>GPU</small><b>small batches</b><span>calculate on demand</span></div>
+          <i aria-hidden="true">→</i>
+          <div class="node"><small>TRAIN</small><b>factor pool</b><span>checkpoints + logs</span></div>
+        </div>
+        <div class="branch-grid">
+          <div><small>ROUTE A</small><b>internal score</b><span>promising</span></div>
+          <div><small>ROUTE B</small><b>manual checks</b><span>comparable</span></div>
+          <div class="alert"><small>ROUTE C</small><b>dedicated evaluator</b><span>material score divergence</span></div>
+        </div>
+      </div>
+    )
+  }
+
+  {
+    kind === "fund-audit" && (
+      <div class="fund-diagram">
+        <div class="visual-head"><span>From record to supported claim</span><span>sanitized</span></div>
+        <div class="audit-lanes">
+          <div class="lane"><small>01 · OBSERVATION</small><b>Raw NAV</b><span>No stale forward fill</span></div>
+          <div class="lane"><small>02 · QUALITY</small><b>Coverage + recency</b><span>Usable before analytical</span></div>
+          <div class="lane"><small>03 · ENTITY</small><b>Fund ≠ manager</b><span>Exposure kept separate from ownership</span></div>
+          <div class="lane"><small>04 · EVIDENCE</small><b>Source + page</b><span>Date, unit, denominator, caveat</span></div>
+        </div>
+        <div class="matrix-strip" aria-hidden="true">
+          {Array.from({ length: 24 }).map((_, index) => <span class:list={[index % 7 === 0 && "lit"]} />)}
+        </div>
+      </div>
+    )
+  }
+
+  {
+    kind === "analysis-agent" && (
+      <div class="agent-diagram">
+        <div class="visual-head"><span>CueData · working path</span><span>MVP</span></div>
+        <div class="user-flow">
+          <div><small>INPUT</small><b>CSV / XLSX</b></div><i>→</i>
+          <div><small>PROFILE</small><b>fields + quality</b></div><i>→</i>
+          <div><small>PLAN</small><b>six explicit steps</b></div><i>→</i>
+          <div><small>OUTPUT</small><b>Markdown report</b></div>
+        </div>
+        <div class="agent-bottom">
+          <div class="loss-card"><small>FIXED VALIDATION SET</small><strong>1.612 <em>→</em> 1.011</strong><span>base / LoRA eval loss</span></div>
+          <ol>
+            <li><span>01</span> local LoRA</li>
+            <li><span>02</span> hosted model</li>
+            <li><span>03</span> structured template</li>
+          </ol>
+        </div>
+      </div>
+    )
+  }
+
+  {
+    kind === "regime-test" && (
+      <div class="regime-diagram">
+        <div class="visual-head"><span>Leakage-controlled experiment</span><span>early result</span></div>
+        <div class="split-line">
+          <div class="train"><small>FIT + TRAIN</small><span>regime detector + factor pools</span></div>
+          <div><small>PREDICT ONLY</small><span>validation</span></div>
+          <div><small>PREDICT ONLY</small><span>test</span></div>
+        </div>
+        <div class="signal-bars">
+          <div><span>Train signal</span><b style="--bar: 82%"></b><em>visible</em></div>
+          <div><span>Held-out IC</span><b style="--bar: 8%"></b><em>≈ 0</em></div>
+          <div><span>HMM balance</span><b style="--bar: 16%"></b><em>collapsed</em></div>
+        </div>
+      </div>
+    )
+  }
+
+  {
+    kind === "graph-risk" && (
+      <div class="graph-diagram">
+        <div class="visual-head"><span>Typed relation graph</span><span>design, not outcome</span></div>
+        <svg viewBox="0 0 720 260" aria-hidden="true">
+          <g class="edges">
+            <path d="M110 130 L260 62 L390 122 L535 55" />
+            <path d="M110 130 L260 198 L390 122 L560 190" />
+            <path d="M260 62 L260 198 M390 122 L560 190 M535 55 L390 122" />
+          </g>
+          <g class="nodes">
+            <g transform="translate(110 130)"><circle r="38" /><text>company</text></g>
+            <g transform="translate(260 62)"><circle r="32" /><text>person</text></g>
+            <g transform="translate(260 198)"><circle r="32" /><text>account</text></g>
+            <g transform="translate(390 122)"><circle r="38" class="focus" /><text>loan</text></g>
+            <g transform="translate(535 55)"><circle r="32" /><text>device</text></g>
+            <g transform="translate(560 190)"><circle r="38" /><text>behavior</text></g>
+          </g>
+        </svg>
+        <p class="visual-foot">typed paths → interpretable features → tabular vs graph-augmented baseline</p>
+      </div>
+    )
+  }
+
+  {
+    kind === "sft-audit" && (
+      <div class="sft-diagram">
+        <div class="visual-head"><span>Data-quality funnel</span><span>source → training</span></div>
+        <div class="funnel">
+          <div style="--w:100%"><b>100,000</b><span>web records</span></div>
+          <div style="--w:70%"><b>source units</b><span>routed by structure</span></div>
+          <div style="--w:44%"><b>pipeline-retained</b><span>teacher output or sampling agreement; agreement ≠ correctness</span></div>
+          <div class="last" style="--w:24%"><b>1,146</b><span>retained examples</span></div>
+        </div>
+        <div class="reject-line"><span>missing final answer</span><span>sample disagreement</span><span>template hallucination</span><span>prompt contamination</span></div>
+      </div>
+    )
+  }
+
+  {
+    kind === "analytics-audit" && (
+      <div class="gate-diagram">
+        <div class="visual-head"><span>Four gates for generated analysis</span><span>run ≠ correct</span></div>
+        <div class="gates">
+          <div><small>01</small><b>Artifact</b><span>Does the notebook open?</span></div>
+          <div><small>02</small><b>Computation</b><span>Do two APIs agree?</span></div>
+          <div><small>03</small><b>Statistics</b><span>Do assumptions hold?</span></div>
+          <div class="alert"><small>04</small><b>Meaning</b><span>Did SQL answer the question?</span></div>
+        </div>
+      </div>
+    )
+  }
+
+  {
+    kind === "domain-shift" && (
+      <div class="shift-diagram">
+        <div class="visual-head"><span>Validation vs new-image domain</span><span>F1</span></div>
+        <div class="comparison">
+          <div><p>Early approach</p><span><i style="--h:99%"></i><b>0.9924<small>OOF</small></b></span><span><i class="test" style="--h:56%"></i><b>0.5638<small>later set</small></b></span></div>
+          <div><p>Revised pipeline</p><span><i style="--h:94%"></i><b>0.9381<small>OOF</small></b></span><span><i class="test" style="--h:84%"></i><b>0.8372<small>later set</small></b></span></div>
+        </div>
+      </div>
+    )
+  }
+
+  {
+    kind === "mapreduce" && (
+      <div class="map-diagram">
+        <div class="visual-head"><span>Verified distributed factor job</span><span>correctness first</span></div>
+        <div class="pipeline-row compact">
+          <div class="node"><small>HDFS</small><b>snapshot files</b></div><i>→</i>
+          <div class="node"><small>MAP</small><b>20 factors</b></div><i>→</i>
+          <div class="node"><small>COMBINE</small><b>local sums</b></div><i>→</i>
+          <div class="node"><small>REDUCE</small><b>time averages</b></div>
+        </div>
+        <div class="verify-strip"><b>OUTPUT CSV</b><i>↔</i><b>PYTHON CHECK</b><span>all factors below 1% average relative error</span></div>
+      </div>
+    )
+  }
+
+  {
+    kind === "exit-curve" && (
+      <div class="exit-diagram">
+        <div class="visual-head"><span>Time-dependent profit threshold</span><span>research note</span></div>
+        <div class="curve-legend" aria-label="Chart legend">
+          <span><i class="legend-line threshold" aria-hidden="true"></i>profit threshold</span>
+          <span><i class="legend-line position" aria-hidden="true"></i>illustrative profit path</span>
+        </div>
+        <svg viewBox="0 0 720 300" aria-hidden="true">
+          <line x1="70" y1="240" x2="670" y2="240" class="axis" />
+          <line x1="70" y1="35" x2="70" y2="240" class="axis" />
+          <path d="M80 72 C210 92 310 130 430 172 C520 205 592 214 660 220" class="curve" />
+          <path d="M80 215 C180 200 235 160 320 178 C420 202 470 122 560 136 C610 142 632 110 660 96" class="profit" />
+          <circle cx="422.36" cy="169.32" r="7" />
+          <text x="438" y="156">exit trigger</text>
+          <text x="318" y="275">holding time</text>
+        </svg>
+      </div>
+    )
+  }
+</figure>
+
+<style>
+  .visual-shell {
+    min-height: 26rem;
+    border: 1px solid var(--color-line);
+    background:
+      linear-gradient(rgba(126, 184, 196, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(126, 184, 196, 0.035) 1px, transparent 1px),
+      color-mix(in srgb, var(--color-panel) 85%, transparent);
+    background-size: 32px 32px;
+    padding: clamp(1.25rem, 3vw, 2.5rem);
+    overflow: hidden;
+  }
+  .visual-head { display:flex; justify-content:space-between; gap:1rem; padding-bottom:1.25rem; border-bottom:1px solid var(--color-line); font:500 .68rem/1.4 var(--font-mono); letter-spacing:.13em; text-transform:uppercase; color:var(--color-faint); }
+  .pipeline-row { display:grid; grid-template-columns:1fr auto 1fr auto 1fr; gap:1rem; align-items:center; margin-top:3rem; }
+  .pipeline-row.compact { grid-template-columns:1fr auto 1fr auto 1fr auto 1fr; }
+  .pipeline-row > i, .user-flow > i { color:var(--color-signal); font-style:normal; }
+  .node, .user-flow > div { min-height:7.5rem; display:flex; flex-direction:column; justify-content:flex-end; padding:1rem; border:1px solid var(--color-line); background:rgba(11,16,20,.72); }
+  .node.strong { border-color:var(--color-signal-dim); }
+  .node small, .lane small, .gates small, .user-flow small { font:500 .62rem/1.4 var(--font-mono); letter-spacing:.13em; color:var(--color-signal); }
+  .node b, .lane b, .gates b, .user-flow b { margin-top:.55rem; font-size:1rem; font-weight:500; color:var(--color-ink); }
+  .node span, .lane span, .gates span { margin-top:.35rem; font-size:.78rem; line-height:1.45; color:var(--color-muted); }
+  .branch-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:.75rem; margin-top:1rem; }
+  .branch-grid > div { padding:1rem; border-top:2px solid var(--color-signal-dim); background:rgba(18,24,30,.8); }
+  .branch-grid small { display:block; font:500 .6rem var(--font-mono); color:var(--color-faint); }
+  .branch-grid b { display:block; margin-top:.65rem; font-size:.9rem; font-weight:500; }
+  .branch-grid span { display:block; margin-top:.3rem; font-size:.75rem; color:var(--color-muted); }
+  .branch-grid .alert, .gates .alert { border-color:#ca8d70; }
+  .audit-lanes { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; margin-top:2.4rem; background:var(--color-line); }
+  .lane { min-height:10rem; display:flex; flex-direction:column; justify-content:flex-end; padding:1rem; background:var(--color-canvas); }
+  .matrix-strip { display:grid; grid-template-columns:repeat(12,1fr); gap:.35rem; margin-top:1.5rem; }
+  .matrix-strip span { height:.65rem; background:var(--color-line); }
+  .matrix-strip span.lit { background:var(--color-signal); }
+  .user-flow { display:grid; grid-template-columns:1fr auto 1fr auto 1fr auto 1fr; align-items:center; gap:.65rem; margin-top:2.5rem; }
+  .user-flow > div { min-height:6rem; }
+  .agent-bottom { display:grid; grid-template-columns:1.2fr 1fr; gap:1rem; margin-top:1rem; }
+  .loss-card, .agent-bottom ol { padding:1.25rem; border:1px solid var(--color-line); background:rgba(11,16,20,.72); }
+  .loss-card small { display:block; font:.62rem var(--font-mono); color:var(--color-faint); }
+  .loss-card strong { display:block; margin-top:.8rem; font:500 1.8rem var(--font-display); }
+  .loss-card em { color:var(--color-signal); font-style:normal; }
+  .loss-card span { display:block; margin-top:.4rem; font-size:.78rem; color:var(--color-muted); }
+  .agent-bottom ol { list-style:none; margin:0; display:grid; gap:.65rem; font-size:.82rem; color:var(--color-muted); }
+  .agent-bottom li span { display:inline-block; width:2rem; font:500 .65rem var(--font-mono); color:var(--color-signal); }
+  .split-line { display:grid; grid-template-columns:1.35fr 1fr 1fr; margin-top:2.5rem; border:1px solid var(--color-line); }
+  .split-line > div { min-height:7rem; padding:1rem; border-left:1px solid var(--color-line); display:flex; flex-direction:column; justify-content:flex-end; }
+  .split-line > div:first-child { border:0; }
+  .split-line .train { background:rgba(126,184,196,.07); }
+  .split-line small { font:.62rem var(--font-mono); color:var(--color-signal); }
+  .split-line span { margin-top:.5rem; font-size:.82rem; color:var(--color-muted); }
+  .signal-bars { display:grid; gap:1rem; margin-top:2rem; }
+  .signal-bars > div { display:grid; grid-template-columns:8rem 1fr 4rem; gap:1rem; align-items:center; font-size:.78rem; color:var(--color-muted); }
+  .signal-bars b { height:.45rem; background:linear-gradient(90deg,var(--color-signal) var(--bar),var(--color-line) var(--bar)); }
+  .signal-bars em { font-style:normal; text-align:right; color:var(--color-faint); }
+  .graph-diagram svg, .exit-diagram svg { width:100%; height:auto; margin-top:1rem; }
+  .edges path { fill:none; stroke:var(--color-line); stroke-width:2; }
+  .nodes circle { fill:var(--color-canvas); stroke:var(--color-signal-dim); stroke-width:2; }
+  .nodes circle.focus { fill:rgba(126,184,196,.12); stroke:var(--color-signal); }
+  .nodes text { fill:var(--color-muted); text-anchor:middle; dominant-baseline:middle; font:12px var(--font-mono); }
+  .visual-foot { margin:0; text-align:center; font:.68rem/1.5 var(--font-mono); letter-spacing:.09em; text-transform:uppercase; color:var(--color-faint); }
+  .funnel { display:flex; flex-direction:column; align-items:center; gap:.55rem; margin-top:2rem; }
+  .funnel > div { width:var(--w); min-height:3.6rem; padding:.8rem 1rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; border:1px solid var(--color-line); background:rgba(11,16,20,.76); }
+  .funnel .last { border-color:var(--color-signal); background:rgba(126,184,196,.08); }
+  .funnel b { font:500 1rem var(--font-display); }
+  .funnel span { font-size:.75rem; color:var(--color-muted); }
+  .reject-line { display:flex; flex-wrap:wrap; justify-content:center; gap:.5rem; margin-top:1.5rem; }
+  .reject-line span { padding:.45rem .65rem; border:1px solid var(--color-line); font:.62rem var(--font-mono); color:var(--color-faint); }
+  .gates { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-top:3rem; }
+  .gates > div { min-height:10rem; display:flex; flex-direction:column; justify-content:flex-end; padding:1.1rem; border-top:2px solid var(--color-signal-dim); background:rgba(11,16,20,.74); }
+  .comparison { display:grid; grid-template-columns:1fr 1fr; gap:2rem; height:18rem; margin-top:2rem; }
+  .comparison > div { display:grid; grid-template-columns:1fr 1fr; gap:1rem; align-items:end; padding:1rem; border-left:1px solid var(--color-line); }
+  .comparison p { grid-column:1/-1; align-self:start; margin:0; font-size:.82rem; color:var(--color-muted); }
+  .comparison span { height:13rem; position:relative; display:flex; align-items:flex-end; }
+  .comparison i { width:100%; height:var(--h); background:var(--color-signal-dim); }
+  .comparison i.test { background:var(--color-signal); }
+  .comparison b { position:absolute; left:.5rem; bottom:.5rem; font:500 .9rem var(--font-mono); color:var(--color-ink); }
+  .comparison small { display:block; margin-top:.2rem; font-size:.58rem; color:var(--color-canvas); }
+  .verify-strip { display:grid; grid-template-columns:auto auto auto 1fr; gap:1rem; align-items:center; margin-top:2rem; padding:1rem; border:1px solid var(--color-line); font:.68rem var(--font-mono); color:var(--color-muted); }
+  .verify-strip b { color:var(--color-ink); }
+  .verify-strip i { color:var(--color-signal); font-style:normal; }
+  .axis { stroke:var(--color-line); stroke-width:2; }
+  .curve { fill:none; stroke:var(--color-signal); stroke-width:4; }
+  .profit { fill:none; stroke:var(--color-muted); stroke-width:2; stroke-dasharray:7 6; }
+  .curve-legend { display:flex; justify-content:flex-end; flex-wrap:wrap; gap:.7rem 1.35rem; margin-top:1rem; font:500 .62rem/1.4 var(--font-mono); letter-spacing:.08em; text-transform:uppercase; color:var(--color-faint); }
+  .curve-legend span { display:inline-flex; align-items:center; gap:.5rem; }
+  .legend-line { display:inline-block; width:2rem; height:0; border-top:3px solid var(--color-signal); }
+  .legend-line.position { border-top:2px dashed var(--color-muted); }
+  .exit-diagram circle { fill:#ca8d70; }
+  .exit-diagram text { fill:var(--color-muted); font:12px var(--font-mono); }
+
+  @media (max-width: 800px) {
+    .visual-shell { min-height:auto; }
+    .pipeline-row, .pipeline-row.compact, .user-flow { grid-template-columns:1fr; margin-top:1.5rem; }
+    .pipeline-row > i, .user-flow > i { transform:rotate(90deg); justify-self:center; }
+    .branch-grid, .audit-lanes, .gates, .agent-bottom, .comparison { grid-template-columns:1fr; }
+    .lane, .gates > div { min-height:7rem; }
+    .split-line { grid-template-columns:1fr; }
+    .split-line > div { border-left:0; border-top:1px solid var(--color-line); }
+    .signal-bars > div { grid-template-columns:6rem 1fr 3.4rem; }
+    .comparison { height:auto; }
+    .comparison > div { min-height:18rem; }
+    .verify-strip { grid-template-columns:auto auto auto; }
+    .verify-strip span { grid-column:1/-1; line-height:1.5; }
+    .funnel > div { width:100% !important; flex-direction:column; justify-content:center; text-align:center; gap:.35rem; }
+  }
+</style>

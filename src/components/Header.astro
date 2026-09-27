@@ -1,0 +1,78 @@
+---
+import { nav, site } from "../data/site";
+
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+---
+
+<header
+  class="sticky top-0 z-40 border-b border-line/80 bg-canvas/80 backdrop-blur-md"
+>
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-6 px-5 py-4 md:px-8">
+    <a href="/" class="font-display text-sm tracking-wide text-ink">
+      {site.name}
+    </a>
+    <button
+      class="inline-flex h-11 w-11 flex-col items-center justify-center gap-1.5 border border-line transition-colors hover:border-signal md:hidden"
+      type="button"
+      data-nav-toggle
+      aria-expanded="false"
+      aria-controls="site-nav"
+      aria-label="Open navigation"
+    >
+      <span class="sr-only">Menu</span>
+      <span class="block h-px w-4 bg-ink"></span>
+      <span class="block h-px w-4 bg-ink"></span>
+    </button>
+    <nav
+      id="site-nav"
+      data-nav
+      class="max-md:absolute max-md:left-0 max-md:right-0 max-md:top-full max-md:hidden max-md:border-b max-md:border-line max-md:bg-canvas md:block"
+    >
+      <ul class="flex flex-col gap-1 px-5 py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-muted md:flex-row md:items-center md:gap-7 md:px-0 md:py-0">
+        {
+          nav.map((item) => {
+            const active = path.startsWith(item.href);
+            return (
+              <li>
+                <a
+                  href={item.href}
+                  class:list={[
+                    "block py-2 transition-colors hover:text-ink focus-visible:text-ink",
+                    active ? "text-signal" : "text-muted",
+                  ]}
+                  aria-current={active ? "page" : undefined}
+                >
+                  {item.label}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>("[data-nav-toggle]");
+  const nav = document.querySelector<HTMLElement>("[data-nav]");
+
+  function setOpen(open: boolean) {
+    toggle?.setAttribute("aria-expanded", String(open));
+    toggle?.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
+    nav?.classList.toggle("max-md:hidden", !open);
+  }
+
+  toggle?.addEventListener("click", () => {
+    setOpen(toggle.getAttribute("aria-expanded") !== "true");
+  });
+
+  nav?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setOpen(false)));
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && toggle?.getAttribute("aria-expanded") === "true") {
+      setOpen(false);
+      toggle.focus();
+    }
+  });
+</script>

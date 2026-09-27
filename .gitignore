@@ -1,0 +1,30 @@
+# build output
+dist/
+
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# environment
+.env
+.env.*
+!.env.example
+
+# internal editorial notes
+CONTENT-FILL.md
+CONTENT-QUESTIONS.md
+CONTENT-FILLED.md
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/

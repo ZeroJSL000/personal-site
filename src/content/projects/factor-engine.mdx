@@ -1,0 +1,48 @@
+---
+title: "Twenty Market Factors, Computed and Checked"
+shortTitle: "Distributed factor engine"
+category: "Data systems"
+status: "Completed · team course project"
+role: "Team contributor"
+context: "Distributed Storage and Parallel Computing · SUSTech"
+dates: "Sep 2025 — Jan 2026"
+summary: "Our team built a Hadoop pipeline that computes twenty order-book and market factors from stock snapshots, then checks its outputs against reference values."
+featured: false
+caseFormat: "brief"
+order: 9
+tags: ["Hadoop", "Market microstructure", "Verification"]
+visual: "mapreduce"
+question: "How do you make a distributed factor job precise enough to trust across every stage of aggregation?"
+challenge: "The job had to parse many small stock-snapshot files, preserve per-security state, aggregate by trading day and time, and match reference factor definitions within the course error threshold."
+contributions:
+  - "The Java pipeline encoded twenty factor definitions with explicit safe-division and numerical-stability handling."
+  - "A mapper, local combiner, reducer, and per-day output path used a trading-day/time aggregation key."
+  - "Combined text input, local aggregation, manual parsing, and object reuse reduced file and network overhead."
+  - "A separate Python comparison tool checked every factor against reference outputs before the distributed output was accepted."
+process:
+  - number: "01"
+    title: "Make the definition executable"
+    body: "Spread, depth, imbalance, weighted-price, time-series, and price-pressure factors were encoded with explicit numerical guards."
+  - number: "02"
+    title: "Keep work near the data"
+    body: "The mapper computed per-security values while a combiner reduced intermediate network traffic before final aggregation."
+  - number: "03"
+    title: "Control the small-file cost"
+    body: "Combined inputs and deliberately sized splits reduced scheduling overhead from many snapshot files."
+  - number: "04"
+    title: "Verify before celebrating speed"
+    body: "A separate pandas/NumPy checker compared each factor and trading time against the course reference output."
+metrics:
+  - value: "20"
+    label: "market factors implemented"
+    detail: "Across spread, depth, imbalance, weighted prices, temporal behavior, and price pressure."
+  - value: "< 1%"
+    label: "average relative error"
+    detail: "Met for all twenty factors on the course test days."
+  - value: "Map → Reduce"
+    label: "verified aggregation path"
+    detail: "A local combiner reduced traffic between mapper and reducer, while a separate pandas/NumPy path checked the result."
+outcome: "The system produced per-day factor files through a complete HDFS-to-MapReduce pipeline and met the course correctness threshold for all twenty factors."
+limitation: "This course-scoped case supports claims about correctness and pipeline design, not production scalability; the supplied definitions and test data do not establish behavior on a production cluster."
+reflection: "The project made one lesson concrete: the comparison path matters as much as the distributed job. A fast pipeline that silently changes a factor definition is simply a faster way to produce the wrong research input."
+---

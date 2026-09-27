@@ -1,0 +1,211 @@
+---
+interface Props {
+  id: string;
+  org: string;
+  role: string;
+  dates: string;
+  location: string;
+  lens: string;
+  summary: string;
+  contributions: string[];
+  evidence: string[];
+  tags: string[];
+  featured: boolean;
+  related: Array<{ href: string; label: string }>;
+}
+
+const { id, org, role, dates, location, lens, summary, contributions, evidence, tags, featured, related } = Astro.props;
+const hasRelatedCase = related.length > 0;
+const visibleContributions = hasRelatedCase ? contributions.slice(0, 2) : contributions;
+---
+
+<article id={id} class:list={["experience-entry", featured && "is-featured"]}>
+  <div class="experience-meta">
+    <p>{dates}</p>
+    <span>{location}</span>
+  </div>
+
+  <div class="experience-body">
+    <div class="flex flex-wrap items-start justify-between gap-4">
+      <div>
+        <h2>{org}</h2>
+        <p class="role">{role}</p>
+      </div>
+      <p class="lens">{lens}</p>
+    </div>
+
+    <p class="summary">{summary}</p>
+
+    <div class:list={["experience-details", hasRelatedCase && "is-condensed"]}>
+      <div>
+        <p class="detail-label">Selected responsibilities</p>
+        <ul>
+          {visibleContributions.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+      <div>
+        <p class="detail-label">Evidence boundary</p>
+        {
+          hasRelatedCase ? (
+            <p class="evidence-summary">{evidence.join(" · ")}</p>
+          ) : (
+            <ul class="evidence-list">
+              {evidence.map((item) => <li>{item}</li>)}
+            </ul>
+          )
+        }
+      </div>
+    </div>
+
+    <div class="mt-8 flex flex-col gap-5 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
+      <p class="flex flex-wrap gap-x-4 gap-y-2 font-mono text-[0.68rem] uppercase tracking-[0.11em] text-faint">
+        {tags.map((tag) => <span>{tag}</span>)}
+      </p>
+      {
+        related.length > 0 && (
+          <p class="flex flex-wrap gap-4">
+            {related.map((item) => (
+              <a href={item.href}>{item.label} ↗</a>
+            ))}
+          </p>
+        )
+      }
+    </div>
+  </div>
+</article>
+
+<style>
+  .experience-entry {
+    scroll-margin-top: 7rem;
+    display: grid;
+    gap: 2rem;
+    border-top: 1px solid var(--color-line);
+    padding-block: 3rem;
+  }
+
+  .experience-entry.is-featured {
+    border-top-color: var(--color-signal-dim);
+  }
+
+  .experience-meta p {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-ink);
+  }
+
+  .experience-meta span {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--color-faint);
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    line-height: 1;
+    letter-spacing: -0.045em;
+  }
+
+  .role {
+    margin-top: 0.7rem;
+    max-width: 38rem;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--color-muted);
+  }
+
+  .lens {
+    max-width: 16rem;
+    border-left: 1px solid var(--color-signal);
+    padding-left: 1rem;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    line-height: 1.35;
+    color: var(--color-ink);
+  }
+
+  .summary {
+    margin-top: 2rem;
+    max-width: 52rem;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--color-ink);
+  }
+
+  .experience-details {
+    display: grid;
+    gap: 2rem;
+    margin-top: 2.5rem;
+    border-top: 1px solid var(--color-line);
+    padding-top: 2rem;
+  }
+
+  .detail-label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-faint);
+  }
+
+  ul {
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+  }
+
+  li {
+    position: relative;
+    margin-top: 0.75rem;
+    padding-left: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--color-muted);
+  }
+
+  li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.72rem;
+    width: 0.32rem;
+    height: 0.32rem;
+    background: var(--color-signal-dim);
+  }
+
+  .evidence-list li {
+    color: var(--color-ink);
+  }
+
+  .evidence-summary {
+    margin-top: 1rem;
+    max-width: 34rem;
+    font-size: 0.9rem;
+    line-height: 1.75;
+    color: var(--color-ink);
+  }
+
+  a {
+    font-size: 0.85rem;
+    color: var(--color-signal);
+    text-decoration: none;
+  }
+
+  a:hover,
+  a:focus-visible {
+    text-decoration: underline;
+  }
+
+  @media (min-width: 768px) {
+    .experience-entry {
+      grid-template-columns: 11rem minmax(0, 1fr);
+      gap: 4rem;
+      padding-block: 4rem;
+    }
+
+    .experience-details {
+      grid-template-columns: minmax(0, 1.2fr) minmax(14rem, 0.8fr);
+    }
+  }
+</style>

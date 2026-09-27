@@ -1,0 +1,48 @@
+---
+title: "Testing a Time-Dependent Rule for Exiting Trades"
+shortTitle: "Time-dependent exit rule"
+category: "Quant research"
+status: "In progress · independent live research"
+role: "Independent researcher and developer"
+context: "Self-directed project"
+dates: "Sep 2025 — Present"
+summary: "I tested a profit target that changes with holding time on a strictly chronological holdout, then ran the translated rule with real capital through Freqtrade. The observed live period ended with a positive return."
+featured: false
+caseFormat: "brief"
+order: 10
+tags: ["Backtesting", "Optimization", "Risk"]
+visual: "exit-curve"
+question: "Should a profitable position face the same exit threshold after one hour and after many hours?"
+challenge: "An optimized exit curve can look persuasive on one history while simply fitting noise. The rule also had to behave consistently between the local backtest and the execution framework."
+contributions:
+  - "Implemented exponential and polynomial target curves that decay with holding time and trigger a dynamic profit-taking rule."
+  - "Built a reproducible backtest with trade records, equity reconstruction, transaction fees, risk metrics, and saved experiment configurations."
+  - "Compared random search with Gaussian-process Bayesian optimization using Sortino ratio as the training objective."
+  - "Adapted the rule to Freqtrade's strategy interface and ran it with real capital, where the observed live period produced a positive return."
+process:
+  - number: "01"
+    title: "Write the intuition as a curve"
+    body: "Exponential and polynomial families translated the idea of declining patience into explicit, testable thresholds."
+  - number: "02"
+    title: "Separate optimization and evaluation"
+    body: "A strictly chronological 70/30 split kept parameter selection in the earlier period and left the later test partition untouched during development."
+  - number: "03"
+    title: "Judge downside, not only return"
+    body: "Sortino, Sharpe, drawdown, win rate, and total return were retained so one favorable metric could not carry the argument."
+  - number: "04"
+    title: "Observe implementation drift"
+    body: "The Freqtrade version moved the rule beyond the local engine into real-capital execution. Its positive observed period is execution evidence, but not proof of a durable trading advantage."
+metrics:
+  - value: "70 / 30"
+    label: "chronological train / test split"
+    detail: "The later partition was held out from parameter selection and was not repeatedly inspected during development."
+  - value: "0.81 → 0.86"
+    label: "Sortino ratio in one SOL/USDT hourly test"
+    detail: "A project-note result on the untouched later partition, with transaction fees included and slippage excluded."
+  - value: "2 × 2"
+    label: "curve families × search methods"
+    detail: "Exponential or polynomial curves with random or Bayesian optimization."
+outcome: "In one strictly held-out SOL/USDT hourly test, the optimized curve modestly improved downside-adjusted performance. The candidate was then run with real capital through Freqtrade and recorded a positive return over the observed live period."
+limitation: "The backtest covers one asset and one historical split, with transaction fees included but slippage excluded. The live result is not reported as a percentage because its period, capital base, and cost reconciliation have not yet been prepared for publication; one positive period does not establish persistent profitability."
+reflection: "Optimization produced a candidate rule, not a conclusion. The important next step is repeated out-of-sample testing across assets, periods, costs, and execution conditions."
+---

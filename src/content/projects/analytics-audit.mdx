@@ -1,0 +1,48 @@
+---
+title: "Executable Is Not the Same as Correct"
+shortTitle: "Auditing generated analytics"
+category: "Data systems"
+status: "Completed · independent course project"
+role: "Independent builder and analyst"
+context: "Big Data Analysis · SUSTech"
+dates: "Apr 2026"
+summary: "I built checks around agent-generated Spark and SQL work, showing that code can run successfully while still answering the wrong statistical or business question."
+featured: false
+caseFormat: "brief"
+order: 8
+tags: ["Spark", "Statistical modeling", "Text-to-SQL"]
+visual: "analytics-audit"
+question: "How can an analysis agent prove that its code executed, its statistics are appropriate, and its SQL matches the intended business definition?"
+challenge: "A generated notebook first failed as a file. Later queries executed cleanly but used the wrong baseline, mishandled a long tail, or selected a global top result instead of a top result within each group. Runtime success was only the first gate."
+contributions:
+  - "Repaired the agent execution environment and regenerated a structurally valid notebook before checking data scale and output."
+  - "Computed the same BRFSS summaries with Spark DataFrame and Spark SQL APIs and compared the resulting values."
+  - "Migrated a telecom survival-analysis workflow from a managed notebook environment to a regular server and made schema, missing-value, and censoring decisions explicit."
+  - "Designed three Text-to-SQL stress cases and retained the incorrect SQL, incorrect result, corrected SQL, and corrected result for each."
+process:
+  - number: "01"
+    title: "Verify that work happened"
+    body: "Logs, file structure, row counts, and outputs established that the agent had produced a runnable artifact on the real data."
+  - number: "02"
+    title: "Cross-check the computation"
+    body: "DataFrame and SQL APIs independently computed the same Spark metrics, turning plausibility into a numerical parity test."
+  - number: "03"
+    title: "Match model to question"
+    body: "Kaplan–Meier, Cox PH, and log-logistic AFT were used for different retention questions, with assumption checks limiting interpretation."
+  - number: "04"
+    title: "Attack the meaning of the query"
+    body: "Group baselines, uneven tenure bins, and group-wise Top-1 logic exposed SQL that was executable but semantically wrong."
+metrics:
+  - value: "253,680"
+    label: "records in the Spark parity check"
+    detail: "DataFrame and SQL implementations returned a maximum absolute difference of zero."
+  - value: "3 models"
+    label: "used for retention-time questions"
+    detail: "Kaplan–Meier, Cox proportional hazards, and log-logistic AFT, each with a different interpretive role."
+  - value: "3 failures"
+    label: "designed for semantic SQL stress"
+    detail: "Wrong group baseline, long-tail binning, and global-versus-group-wise ranking."
+outcome: "The project connected execution checks, statistical modeling, business valuation, and SQL semantics in one reviewable workflow. Its central deliverable was a set of failure cases showing where an apparently successful agent answer could still be wrong."
+limitation: "This is a course-scale audit, not a general benchmark of analysis agents. The survival and CLV results come from one public telecom dataset, while the SQL cases were selected to expose specific semantic weaknesses."
+reflection: "An agent should not receive credit for producing code that runs. It needs checks at four layers: artifact, computation, statistical assumption, and business meaning."
+---
