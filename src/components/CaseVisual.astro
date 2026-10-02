@@ -15,7 +15,7 @@ interface Props {
 
 const { kind } = Astro.props;
 const visualDescriptions: Record<Props["kind"], string> = {
-  "factor-pipeline": "Minute-scale factor pipeline from compact CPU storage through batched GPU calculation to three evaluation routes.",
+  "factor-pipeline": "Factor workflow using minute-level inputs, CPU-side staging, daywise and segmented calculation, and three evaluation routes.",
   "fund-audit": "Sanitized fund-research workflow connecting raw observations, quality rules, entity definitions, and source-level evidence.",
   "analysis-agent": "CueData working path from spreadsheet upload through profiling and analysis planning to a Markdown report, with three inference fallbacks.",
   "regime-test": "Leakage-controlled market-regime experiment showing train-only fitting and weak held-out results.",
@@ -38,16 +38,16 @@ const visualDescriptions: Record<Props["kind"], string> = {
           <span>constraint → evaluation</span>
         </div>
         <div class="pipeline-row">
-          <div class="node strong"><small>CPU</small><b>compact data</b><span>multi-year store</span></div>
+          <div class="node strong"><small>CPU</small><b>data staging</b><span>minute-level inputs</span></div>
           <i aria-hidden="true">→</i>
-          <div class="node"><small>GPU</small><b>small batches</b><span>calculate on demand</span></div>
+          <div class="node"><small>GPU</small><b>daywise compute</b><span>segmented windows</span></div>
           <i aria-hidden="true">→</i>
           <div class="node"><small>TRAIN</small><b>factor pool</b><span>checkpoints + logs</span></div>
         </div>
         <div class="branch-grid">
-          <div><small>ROUTE A</small><b>internal score</b><span>promising</span></div>
-          <div><small>ROUTE B</small><b>manual checks</b><span>comparable</span></div>
-          <div class="alert"><small>ROUTE C</small><b>dedicated evaluator</b><span>material score divergence</span></div>
+          <div><small>ROUTE A</small><b>internal score</b><span>Spearman Rank IC</span></div>
+          <div><small>ROUTE B</small><b>local evaluation</b><span>checkpoint checks</span></div>
+          <div class="alert"><small>ROUTE C</small><b>dedicated evaluator</b><span>Pearson IC; compatibility open</span></div>
         </div>
       </div>
     )
