@@ -32,6 +32,37 @@ const featuredCards = await getFeaturedCards();
     </Container>
   </section>
 
+  <section class="border-t border-line py-12 md:py-16">
+    <Container>
+      <a
+        href="/projects/exit-curve"
+        class="group grid gap-8 border border-signal/40 bg-panel/35 p-7 transition-colors hover:border-signal focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal md:grid-cols-[minmax(0,1.3fr)_minmax(16rem,0.7fr)] md:gap-12 md:p-10"
+      >
+        <div>
+          <p class="eyebrow">From research to live execution</p>
+          <h2 class="mt-5 max-w-2xl font-display text-3xl leading-[1.08] tracking-[-0.035em] md:text-5xl">
+            A time-dependent exit rule for crypto trades.
+          </h2>
+          <p class="mt-5 max-w-2xl text-base leading-8 text-muted">
+            I tested declining profit targets on historical data, then ran a related rule with real
+            capital in Freqtrade in a dedicated server environment I built, connected to Binance APIs. My observed
+            live period was profitable; the public case separates that account observation from
+            the archived backtest results.
+          </p>
+        </div>
+        <div class="flex flex-col justify-between gap-8 border-t border-line pt-6 md:border-t-0 md:border-l md:pt-0 md:pl-8">
+          <div>
+            <p class="font-display text-3xl tracking-[-0.04em]">0.812 → 0.859</p>
+            <p class="mt-2 text-sm leading-6 text-muted">
+              SOL/USDT held-out Sortino in one polynomial-curve simulation, before fees and slippage.
+            </p>
+          </div>
+          <span class="text-sm text-signal transition-transform group-hover:translate-x-1">Read the case ↗</span>
+        </div>
+      </a>
+    </Container>
+  </section>
+
   <section class="border-t border-line bg-panel/25 py-16 md:py-20">
     <Container>
       <div class="max-w-3xl">
