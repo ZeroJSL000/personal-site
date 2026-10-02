@@ -5,8 +5,7 @@ export const site = {
   school: "Southern University of Science and Technology",
   major: "Data Science and Big Data Technology",
   email: "12311205@mail.sustech.edu.cn",
-  /** Empty until a confirmed public URL exists; Footer/About hide the link. */
-  github: "",
+  github: "https://github.com/ZeroJSL000",
   /** Empty until a separate public CV PDF is prepared; Footer/About hide the link. */
   cvHref: "",
   description:

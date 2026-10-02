@@ -54,14 +54,27 @@ const visibleContributions = isFullCase ? project.data.contributions : project.d
             <dd>{project.data.status}</dd>
           </div>
         </dl>
+        {
+          project.data.repoUrl && (
+            <p class="mt-6">
+              <a class="inline-link" href={project.data.repoUrl} target="_blank" rel="noopener noreferrer">
+                View sanitized project code on GitHub ↗
+              </a>
+            </p>
+          )
+        }
       </Container>
     </header>
 
-    <section class="py-8 md:py-12">
-      <Container>
-        <CaseVisual kind={project.data.visual} />
-      </Container>
-    </section>
+    {
+      project.data.visual && (
+        <section class="py-8 md:py-12">
+          <Container>
+            <CaseVisual kind={project.data.visual} />
+          </Container>
+        </section>
+      )
+    }
 
     <nav class="case-nav" aria-label="On this case study">
       <Container class="case-nav-inner flex gap-6 overflow-x-auto py-4 font-mono text-[0.72rem] uppercase tracking-[0.12em] text-faint">

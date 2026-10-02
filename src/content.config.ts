@@ -40,7 +40,7 @@ const project = defineCollection({
       "domain-shift",
       "mapreduce",
       "exit-curve",
-    ]),
+    ]).optional(),
     question: z.string(),
     challenge: z.string(),
     contributions: z.array(z.string()),
@@ -49,6 +49,7 @@ const project = defineCollection({
     outcome: z.string(),
     limitation: z.string(),
     reflection: z.string(),
+    repoUrl: z.url().optional(),
     relatedExperience: z.string().optional(),
   }),
 });
