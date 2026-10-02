@@ -3,18 +3,18 @@ org: "SUSTech · Department of Statistics and Data Science"
 role: "Independent Student Researcher · supervised by Assistant Professor Peng Yang"
 dates: "Oct 2025 — Present"
 location: "Shenzhen, China"
-lens: "A failed hypothesis can still sharpen the research"
-summary: "I am testing whether market-state models help a reinforcement-learning system find equity factors that generalize beyond the training period."
+lens: "An experiment audit can change the conclusion"
+summary: "I am testing regime-aware factor discovery, beginning with an audit of the training masks and held-out metrics in the initial pipeline."
 contributions:
   - "Implemented three regime detectors with a shared fit/predict boundary."
-  - "Prevented future-information leakage by freezing the detector outside the training split."
-  - "Reported weak held-out IC and state imbalance as findings that constrain the next experiment."
+  - "Found that the initial factor pools and per-state IC calculations did not apply the intended regime masks."
+  - "Built a causal, regime-masked public prototype with CEPS-inspired K-line augmentation for small-data testing."
 evidence:
   - "K-means, HMM, and GMM"
-  - "Train-only regime fitting"
-  - "Near-zero held-out IC in early runs"
+  - "Training and metric mask audit"
+  - "Synthetic-data pipeline smoke test"
 featured: false
 order: 4
-tags: ["Market regimes", "Reinforcement learning", "Research design"]
+tags: ["Market regimes", "Factor discovery", "Research audit"]
 relatedProjects: ["qfr-ceps"]
 ---
