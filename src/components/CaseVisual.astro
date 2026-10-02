@@ -22,7 +22,7 @@ const visualDescriptions: Record<Props["kind"], string> = {
   "graph-risk": "Typed entity-relation graph used to design interpretable credit-risk features before baseline comparison.",
   "sft-audit": "Training-data funnel from one hundred thousand source records to 1,146 retained examples, with rejection reasons preserved.",
   "analytics-audit": "Four review gates for generated analysis: artifact, computation, statistical assumptions, and business meaning.",
-  "domain-shift": "Comparison of out-of-fold and later-set F1 before and after redesigning an image-classification pipeline for domain shift.",
+  "domain-shift": "Comparison of early and final out-of-fold and Kaggle leaderboard F1. The final leaderboard submission used top-86 class-count calibration on 194 images.",
   mapreduce: "Distributed factor pipeline from HDFS through map, combine, and reduce stages, followed by an independent Python check.",
   "exit-curve": "Illustration comparing a declining time-dependent profit threshold with an illustrative position-profit path; their first intersection marks the exit trigger. This is not a performance result.",
 };
@@ -166,11 +166,12 @@ const visualDescriptions: Record<Props["kind"], string> = {
   {
     kind === "domain-shift" && (
       <div class="shift-diagram">
-        <div class="visual-head"><span>Validation vs new-image domain</span><span>F1</span></div>
+        <div class="visual-head"><span>Out-of-fold vs Kaggle leaderboard</span><span>F1</span></div>
         <div class="comparison">
-          <div><p>Early approach</p><span><i style="--h:99%"></i><b>0.9924<small>OOF</small></b></span><span><i class="test" style="--h:56%"></i><b>0.5638<small>later set</small></b></span></div>
-          <div><p>Revised pipeline</p><span><i style="--h:94%"></i><b>0.9381<small>OOF</small></b></span><span><i class="test" style="--h:84%"></i><b>0.8372<small>later set</small></b></span></div>
+          <div><p>Early Swin + strong augmentation</p><span><i style="--h:99%"></i><b>0.9924<small>OOF</small></b></span><span><i class="test" style="--h:56%"></i><b>0.5638<small>Kaggle</small></b></span></div>
+          <div><p>Final SwinV2 pipeline</p><span><i style="--h:94%"></i><b>0.9381<small>OOF</small></b></span><span><i class="test" style="--h:84%"></i><b>0.8372<small>Kaggle</small></b></span></div>
         </div>
+        <p class="visual-foot">Final Kaggle score used the top 86 of 194 images as positive labels</p>
       </div>
     )
   }
