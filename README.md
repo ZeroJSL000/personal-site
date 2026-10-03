@@ -1,6 +1,6 @@
 # Shanglin Jiang — personal site
 
-Local Astro site for graduate applications. Editorial English copy. Not indexed. Not deployed.
+Astro source for Shanglin Jiang's personal site. The GitHub repository is public; search indexing remains disabled in the current site layout.
 
 ## Run
 
@@ -39,15 +39,14 @@ Edit MDX in `src/content/projects` and `src/content/experience`. Featured home t
 
 Do not copy CV files, transcripts, or the private workflow document into this folder. Keep `CONTENT-QUESTIONS.md` out of any public repository.
 
-## Privacy (pre-launch)
+## Privacy and publishing
 
 - `noindex, nofollow` in the layout; `public/robots.txt` disallows crawlers.
 - No secrets, phone numbers, private source files, or unsanitized institutional material.
-- Confirm the public email and add reviewed GitHub / CV links in `src/data/site.ts` before going public.
-- GitHub and CV links stay hidden until their public destinations are confirmed.
-- Confirm every number against the CV and transcript.
+- Review public email, CV, and project links in `src/data/site.ts` and the content collections before publishing a deployment.
+- Confirm every number against its underlying evidence.
 - Keep Cuedata demo on a separate host.
 
-## Deploy later
+## Deployment
 
-Private GitHub repository → Cloudflare Pages. Do not attach a custom domain until a privacy pass.
+No hosting configuration is stored in this repository. The site can be built with `npm run build`; hosting and any custom domain are configured separately.

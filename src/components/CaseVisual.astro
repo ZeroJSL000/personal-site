@@ -23,7 +23,7 @@ const visualDescriptions: Record<Props["kind"], string> = {
   "sft-audit": "Training-data funnel from one hundred thousand source records to 1,146 retained examples, with rejection reasons preserved.",
   "analytics-audit": "Four review gates for generated analysis: artifact, computation, statistical assumptions, and business meaning.",
   "domain-shift": "Comparison of early and final out-of-fold and Kaggle leaderboard F1. The final leaderboard submission used top-86 class-count calibration on 194 images.",
-  mapreduce: "Distributed factor pipeline from HDFS through map, combine, and reduce stages, followed by an independent Python check.",
+  mapreduce: "Distributed factor pipeline from HDFS through factor calculation and map-local aggregation to a reducer, followed by a Python check of archived outputs.",
   "exit-curve": "Illustration comparing a declining time-dependent profit threshold with an illustrative position-profit path; their first intersection marks the exit trigger. This is not a performance result.",
 };
 ---
@@ -183,10 +183,10 @@ const visualDescriptions: Record<Props["kind"], string> = {
         <div class="pipeline-row compact">
           <div class="node"><small>HDFS</small><b>snapshot files</b></div><i>→</i>
           <div class="node"><small>MAP</small><b>20 factors</b></div><i>→</i>
-          <div class="node"><small>COMBINE</small><b>local sums</b></div><i>→</i>
+          <div class="node"><small>MAP LOCAL</small><b>sums + counts</b></div><i>→</i>
           <div class="node"><small>REDUCE</small><b>time averages</b></div>
         </div>
-        <div class="verify-strip"><b>OUTPUT CSV</b><i>↔</i><b>PYTHON CHECK</b><span>all factors below 1% average relative error</span></div>
+        <div class="verify-strip"><b>ARCHIVED CSV</b><i>↔</i><b>COURSE REFERENCE</b><span>20 factors checked across five days</span></div>
       </div>
     )
   }
