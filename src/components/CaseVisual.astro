@@ -20,7 +20,7 @@ const visualDescriptions: Record<Props["kind"], string> = {
   "analysis-agent": "CueData working path from spreadsheet upload through profiling and analysis planning to a Markdown report, with three inference fallbacks.",
   "regime-test": "Leakage-controlled market-regime experiment showing train-only fitting and weak held-out results.",
   "graph-risk": "Typed entity-relation graph used to design interpretable credit-risk features before baseline comparison.",
-  "sft-audit": "Training-data funnel from one hundred thousand source records to 1,146 retained examples, with rejection reasons preserved.",
+  "sft-audit": "Schematic data-quality funnel from 100,000 source records to 1,146 examples in the expanded dataset. Bar widths are not proportional; a separate 611-example source-extracted dataset was used for the documented LoRA run.",
   "analytics-audit": "Four review gates for generated analysis: artifact, computation, statistical assumptions, and business meaning.",
   "domain-shift": "Comparison of early and final out-of-fold and Kaggle leaderboard F1. The final leaderboard submission used top-86 class-count calibration on 194 images.",
   mapreduce: "Distributed factor pipeline from HDFS through factor calculation and map-local aggregation to a reducer, followed by a Python check of archived outputs.",
@@ -137,12 +137,12 @@ const visualDescriptions: Record<Props["kind"], string> = {
   {
     kind === "sft-audit" && (
       <div class="sft-diagram">
-        <div class="visual-head"><span>Data-quality funnel</span><span>source → training</span></div>
+        <div class="visual-head"><span>Data-quality funnel</span><span>schematic · not to scale</span></div>
         <div class="funnel">
           <div style="--w:100%"><b>100,000</b><span>web records</span></div>
           <div style="--w:70%"><b>source units</b><span>routed by structure</span></div>
-          <div style="--w:44%"><b>pipeline-retained</b><span>teacher output or sampling agreement; agreement ≠ correctness</span></div>
-          <div class="last" style="--w:24%"><b>1,146</b><span>retained examples</span></div>
+          <div style="--w:44%"><b>candidate answers</b><span>source extraction or dual sampling</span></div>
+          <div class="last" style="--w:24%"><b>1,146</b><span>retained after quality filters</span></div>
         </div>
         <div class="reject-line"><span>missing final answer</span><span>sample disagreement</span><span>template hallucination</span><span>prompt contamination</span></div>
       </div>
